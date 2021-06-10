@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.dao.notify.NotifyMapper">
+
+
+    <select id="SelectCrmdateByStat_0" resultType="com.example.springboot.entity.Crmdata">
+
+
+        SELECT * FROM `crmdata` WHERE stat IN(0) AND lastuid=#{uid}
+
+    </select>
+    <select id="SelectCrmdateByStat_fu1"  resultType="com.example.springboot.entity.CrmdataScheduled" >
+
+        SELECT cid,lastuname,lastuid,lasttime,
+               (SELECT ptime FROM`userpiste` WHERE  cid =c.`cid` ORDER BY ptime DESC  LIMIT 0,1 )
+ `time`FROM crmdata AS c WHERE stat IN(-1) AND lastuid=#{uid}
+
+    </select>
+</mapper>

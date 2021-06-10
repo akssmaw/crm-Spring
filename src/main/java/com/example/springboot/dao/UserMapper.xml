@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springboot.dao.UserMapper">
+
+    <select id="UserAll" resultType="com.example.springboot.entity.User">
+
+        SELECT *,(u.`getnext2`-(SELECT COUNT(*) FROM `getuser2` WHERE gettime>#{day} AND gettime &lt; #{day2} AND u.`uid`=uid )) AS  nownext2  FROM `user` AS u WHERE admin=1
+
+    </select>
+<select id="SelectUserStateByUid" resultType="int">
+
+    SELECT ustate FROM `user` WHERE uid=#{uid}
+
+</select>
+    <insert id="AddUser" >
+
+        INSERT INTO `user` VALUE(NULL,#{uname},#{upassword},default,default,default)
+
+    </insert>
+
+    <select id="AddUserByUname" resultType="int">
+
+        SELECT COUNT(*) FROM `user` WHERE uname=#{uname}
+
+    </select>
+
+    <select id="LoginUser" resultType="com.example.springboot.entity.User" >
+
+        SELECT uid,uname,ustate,admin FROM `user` WHERE uname=#{uname} AND upassword=#{upassword}
+
+    </select>
+
+    <select id="UserAllByUname"  resultType="com.example.springboot.entity.Children">
+
+        SELECT uid AS `value`,uname AS `label` FROM `user` WHERE `admin`=1
+
+    </select>
+
+    <select id="UserAllByuid" resultType="int">
+
+        SELECT admin FROM `user` WHERE uid=#{uid}
+
+    </select>
+
+    <select id="UserAllByuid2" resultType="com.example.springboot.entity.User">
+
+        SELECT * FROM `user` WHERE uid=#{uid}
+    </select>
+
+    <update id="UpdateUserAllAddCount" >
+
+        UPDATE `user` SET getnext2=getnext2+1 WHERE admin=1
+
+    </update>
+
+    <update id="UpdateUserNotAddCount">
+
+        UPDATE `user` SET getnext2=getnext2-1 WHERE admin=1
+
+    </update>
+    <update id="UpdateUserUstate">
+
+        UPDATE `user` SET ustate=#{ustate} WHERE admin = 1
+
+    </update>
+</mapper>

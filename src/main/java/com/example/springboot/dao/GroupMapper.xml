@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springboot.dao.GroupMapper">
+
+
+    <select id="SelectAllGroup" resultType="Object">
+
+        SELECT DISTINCT  `group`  FROM `user`    WHERE uid NOT IN (1)  ORDER BY `group`
+
+    </select>
+
+    <select id="SelectAllMakeCount" resultType="com.example.springboot.entity.Make">
+
+        SELECT uid,uname,`group`,(SELECT COUNT(*) FROM `getuser2`AS g   WHERE  u.`uid` = uid AND gettime>#{time1} AND gettime &lt; #{time2} ) AS overallcount ,(SELECT COUNT(*) FROM `setuser` WHERE u.`uid`=uid AND state=888 AND settime> #{time1} AND settime &lt; #{time2})AS  validcount FROM `user` AS u  WHERE u.`group`=#{group}
+
+    </select>
+    <select id="selectMakeRate" resultType="com.example.springboot.entity.MakeRate">
+
+        SELECT uid,uname,`group`,SUM((SELECT COUNT(*) FROM `getuser2`AS g   WHERE  u.`uid` = uid AND gettime>#{time1} AND gettime  &lt;  #{time2} )) AS overallcountrate ,SUM((SELECT COUNT(*) FROM `setuser` WHERE u.`uid`=uid AND state=888 AND settime> #{time1}  AND settime  &lt; #{time2} )) AS  validcountrate FROM `user` AS u   WHERE u.`group`=#{group}
+
+
+    </select>
+    <select id="selectMakeMoney" resultType="com.example.springboot.entity.MakeMoney">
+
+        SELECT  #{group} as `group`,SUM(prepay) AS prepaysum ,SUM(total)AS totalsum ,COUNT(*) AS `count` FROM `order` WHERE uid IN( SELECT uid FROM `user` WHERE `group` = #{group}) AND `time`>#{time1} AND `time`  &lt;  #{time2}
+
+    </select>
+</mapper>

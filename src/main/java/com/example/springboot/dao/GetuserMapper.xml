@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springboot.dao.GetuserMapper">
+
+    <select id="UidAndTimeByGetnext" resultType="int">
+
+        SELECT (SELECT getnext  FROM `user` WHERE uid=#{uid})-(SELECT COUNT(1) FROM `getuser` WHERE uid=#{uid} AND  gettime > #{gettime}) AS getnext FROM `user` WHERE uid=#{uid}
+
+    </select>
+
+    <insert id="insertGetuser" >
+
+        INSERT INTO `getuser` VALUE(NULL,#{cid},#{uid},#{gettime})
+
+    </insert>
+
+</mapper>
