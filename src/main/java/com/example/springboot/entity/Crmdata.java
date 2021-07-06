@@ -34,5 +34,7 @@ public class Crmdata implements Serializable {
 
     private String plankey;
 
+    private String lastcon;
+
     private int color;
 }

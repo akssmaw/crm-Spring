@@ -1,5 +1,8 @@
 package com.example.springboot.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.example.springboot.entity.Children;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
@@ -57,25 +60,19 @@ public class VersionCon {
     @Autowired
     WebApplicationContext applicationContext;
 
-    @GetMapping("/getParam")
-    public String getParam(){
+    /*json对象  */
+    @GetMapping("/getParam/{data}")
+    public String getParam(@PathVariable String data){
 
-        RequestMappingHandlerMapping mapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
-        // 拿到Handler适配器中的全部方法
-        Map<RequestMappingInfo, HandlerMethod> methodMap = mapping.getHandlerMethods();
-        List<String> urlList = new ArrayList<>();
-        for (RequestMappingInfo info : methodMap.keySet()){
+        JSONArray json = (JSONArray) JSONArray.parse(data);
+        for (int i = 0; i <json.size() ; i++) {
+            System.out.println( json.get(i));
+            JSONObject jo = (JSONObject)json.get(i);
+            System.out.println(jo.getString("label"));
+            System.out.println(jo.getInteger("value"));
 
-            Set<String> urlSet = info.getPatternsCondition().getPatterns();
-            // 获取全部请求方式
-            Set<RequestMethod> Methods = info.getMethodsCondition().getMethods();
-            System.out.println(Methods.toString());
-
-            for (String url : urlSet){
-                // 加上自己的域名和端口号，就可以直接调用
-                urlList.add(url);
-            }
         }
-        return urlList.toString();
+
+        return null;
     }
 }

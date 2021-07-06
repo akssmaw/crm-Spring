@@ -46,7 +46,15 @@ int SelectCrmdataByPhone(@Param("phone")String phone);
                        @Param("ip")String ip,
                        @Param("plankey")String plankey
     );
-
+    //增加4
+    int InsertCrmdata4(@Param("phone")String phone,
+                       @Param("source")String source,
+                       @Param("url")String url,
+                       @Param("con")String con,
+                       @Param("firsttime")String firsttime,
+                       @Param("ip")String ip,
+                       @Param("plankey")String plankey
+    );
 
     //查询全部客户
     public List<Crmdata> CrmdataAll(@Param("page")int page);

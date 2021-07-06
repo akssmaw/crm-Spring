@@ -15,11 +15,10 @@ spring:
   datasource:
     username: root
     password: root
-#    username: crm_system
-#    password: crm_system
+    #    username: crm_system
+    #    password: crm_system
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/crm_system?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&verifyServerCertificate=false&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true&autoReconnect=true
-
   servlet:
     multipart:
       # 启用

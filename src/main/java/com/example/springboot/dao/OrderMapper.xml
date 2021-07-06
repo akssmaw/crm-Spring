@@ -7,13 +7,13 @@
 
     <insert id="InsertOrder">
 
-        INSERT INTO `order` VALUE(NULL,#{cid},#{phone},#{uid},#{uname},#{stuname},#{zipurl},#{prepay},#{total},#{account},#{con},NULL,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{orderproject})
+        INSERT INTO `order` VALUE(NULL,#{cid},#{phone},#{uid},#{uname},#{stuname},#{zipurl},#{prepay},#{total},#{account},#{con},NULL,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{orderproject},#{studentype})
 
     </insert>
 
     <insert id="InsertOrder2">
 
-        INSERT INTO `order` VALUE(NULL,#{cid},#{phone},#{uid},#{uname},#{stuname},#{zipurl},#{prepay},#{total},#{account},#{con},NULL,DEFAULT,DEFAULT,DEFAULT,1,#{orderproject})
+        INSERT INTO `order` VALUE(NULL,#{cid},#{phone},#{uid},#{uname},#{stuname},#{zipurl},#{prepay},#{total},#{account},#{con},NULL,DEFAULT,DEFAULT,DEFAULT,1,#{orderproject},#{studentype})
 
 
     </insert>

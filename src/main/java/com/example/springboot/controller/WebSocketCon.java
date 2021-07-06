@@ -33,11 +33,11 @@ public class WebSocketCon {
 
     }
 
-    @RequestMapping(value = "/GetuserById/{id}", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-    public void GetuserById(@PathVariable int id) {
-        System.out.println(id);
+    @RequestMapping(value = "/GetuserById/{message}", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    public void GetuserById(@PathVariable String message) {
+        System.out.println(message);
 
-        simpMessageSendingOperations.convertAndSend("/topic/GetuserById", id);//将消息推送给‘、topic/ip’的客户端
+        simpMessageSendingOperations.convertAndSend("/topic/GetuserById", message);//将消息推送给‘、topic/ip’的客户端
 
 
     }

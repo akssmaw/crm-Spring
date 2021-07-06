@@ -43,6 +43,15 @@ public interface CrmdataServices {
                        @Param("ip")String ip,
                        @Param("plankey")String plankey
     );
+    //增加3
+    int InsertCrmdata4(@Param("phone")String phone,
+                       @Param("source")String source,
+                       @Param("url")String url,
+                       @Param("con")String con,
+                       @Param("firsttime")String firsttime,
+                       @Param("ip")String ip,
+                       @Param("plankey")String plankey
+    );
     //查询全部客户
     public List<Crmdata> CrmdataAll(@Param("page")int page);
     //查询全部客户

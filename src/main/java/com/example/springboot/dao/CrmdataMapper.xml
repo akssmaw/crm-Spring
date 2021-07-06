@@ -26,6 +26,9 @@
 
         INSERT INTO `crmdata`  VALUE(NULL,#{phone},#{source},#{url},#{con},'客户录入',DEFAULT,DEFAULT,DEFAULT,DEFAULT,-2,#{ip},#{plankey},DEFAULT)
     </insert>
+    <insert id="InsertCrmdata4">
+        INSERT INTO `crmdata`  VALUE(NULL,#{phone},#{source},#{url},#{con},'批量录入',#{firsttime},DEFAULT,DEFAULT,DEFAULT,-2,#{ip},#{plankey},DEFAULT)
+    </insert>
     <select id="SelectCrmdataByIp" resultType="int">
 
         SELECT COUNT(*) FROM `crmdata`  WHERE ip=#{ip}
@@ -135,7 +138,7 @@
     </update>
     <select id="SelectCrmdataBySource" resultType="com.example.springboot.entity.Crmdata" >
 
-        SELECT * FROM `crmdata` WHERE `source` LIKE(${source}) AND firsttime>#{starttime} AND firsttime &lt;#{endtime} ORDER BY cid DESC  LIMIT #{page},10
+        SELECT *,(SELECT (lastcon) FROM `record`   WHERE  cid= `crmdata`.cid ORDER BY lasttime DESC LIMIT 0,1 ) AS lastcon FROM `crmdata` WHERE `source` LIKE(${source}) AND firsttime>#{starttime} AND firsttime &lt;#{endtime} ORDER BY cid DESC  LIMIT #{page},10
 
 
     </select>
@@ -164,10 +167,10 @@
         firsttime>#{starttime} AND firsttime  &lt;  #{endtime}
 
     </select>
-    <select id="UpdataColorByCid">
+    <update id="UpdataColorByCid">
 
         UPDATE `crmdata` SET color=#{color} WHERE cid=#{cid}
 
-    </select>
+    </update>
 
 </mapper>

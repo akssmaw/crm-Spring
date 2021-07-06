@@ -9,6 +9,6 @@ import java.io.Serializable;
 public class Sys  implements Serializable {
      private int sid;
     private int uid;
-    private int scheduledtime;
-    private int scheduledday;
+    private int scheduledtime;/*开启或者关闭*/
+    private int scheduledday;/*时间*/
 }

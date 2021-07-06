@@ -39,10 +39,11 @@ Map<Object,Object> map = new HashMap<>();
             list3.add(groupServices.selectMakeMoney(time1,time2,i));
             System.out.println(groupServices.selectMakeMoney(time1,time2,i));
         }
-
+/*小组不能为0 最少为1*/
         map.put("data",list);
         map.put("data2",list2);
         map.put("data3",list3);
+        map.put("size",groupServices.SelectAllGroup().size());
         return map ;
 
     }

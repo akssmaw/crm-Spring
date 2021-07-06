@@ -43,7 +43,8 @@ public class Upload {
                          @RequestParam("total")double total,
                          @RequestParam("account")String account,
                          @RequestParam("con")String con,
-                              @RequestParam("orderproject")String orderproject
+                          @RequestParam("orderproject")String orderproject,
+                              @RequestParam("studentype")String studentype
     ) {
 
         Long timechuo = Calendar.getInstance().getTimeInMillis();
@@ -64,13 +65,13 @@ public class Upload {
                 System.out.println(prepay);
                 System.out.println(total);
                 System.out.println("金额相等");
-                return orderServices.InsertOrder2(cid, phone, uid, uname, stuname, zipurl, prepay, total, account, con,orderproject) ;
+                return orderServices.InsertOrder2(cid, phone, uid, uname, stuname, zipurl, prepay, total, account, con,orderproject,studentype) ;
 
             }else {
                 System.out.println(prepay);
                 System.out.println(total);
                 System.out.println("金额不相等");
-                return orderServices.InsertOrder(cid, phone, uid, uname, stuname, zipurl, prepay, total, account, con,orderproject) ;
+                return orderServices.InsertOrder(cid, phone, uid, uname, stuname, zipurl, prepay, total, account, con,orderproject,studentype) ;
 
             }
 

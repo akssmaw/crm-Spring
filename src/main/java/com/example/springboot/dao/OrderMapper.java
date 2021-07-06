@@ -22,7 +22,8 @@ public interface OrderMapper {
             @Param("total")double total,
             @Param("account")String account,
             @Param("con")String con,
-            @Param("orderproject")String orderproject
+            @Param("orderproject")String orderproject,
+            @Param("studentype")String studentype
             );
     //根据销售id状态查询订单
     List<Order> SelectOrderByUid(@Param("uid")int uid, @Param("state")int state, @Param("page")int page);
@@ -41,7 +42,8 @@ public interface OrderMapper {
             @Param("total")double total,
             @Param("account")String account,
             @Param("con")String con,
-            @Param("orderproject")String orderproject
+            @Param("orderproject")String orderproject,
+             @Param("studentype")String studentype
     );
 
     //管理员查询全部 审核的

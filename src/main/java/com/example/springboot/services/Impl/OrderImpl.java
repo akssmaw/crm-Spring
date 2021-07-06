@@ -15,8 +15,8 @@ public class OrderImpl implements OrderServices {
 
 
     @Override
-    public int InsertOrder(int cid, String phone, int uid, String uname, String stuname, String zipurl, double prepay, double total, String account, String con, String orderproject) {
-        return orderMapper.InsertOrder(cid, phone, uid, uname, stuname, zipurl, prepay, total, account, con, orderproject);
+    public int InsertOrder(int cid, String phone, int uid, String uname, String stuname, String zipurl, double prepay, double total, String account, String con, String orderproject,String studentype) {
+        return orderMapper.InsertOrder(cid, phone, uid, uname, stuname, zipurl, prepay, total, account, con, orderproject,studentype);
     }
 
     @Override
@@ -30,8 +30,8 @@ public class OrderImpl implements OrderServices {
     }
 
     @Override
-    public int InsertOrder2(int cid, String phone, int uid, String uname, String stuname, String zipurl, double prepay, double total, String account, String con, String orderproject) {
-        return orderMapper.InsertOrder2(cid, phone, uid, uname, stuname, zipurl, prepay, total, account, con, orderproject);
+    public int InsertOrder2(int cid, String phone, int uid, String uname, String stuname, String zipurl, double prepay, double total, String account, String con, String orderproject,String studentype) {
+        return orderMapper.InsertOrder2(cid, phone, uid, uname, stuname, zipurl, prepay, total, account, con, orderproject,studentype);
     }
 
 

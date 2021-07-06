@@ -7,13 +7,20 @@ import com.example.springboot.entity.CrmdataCount;
 import com.example.springboot.entity.SourceSize;
 import com.example.springboot.services.CrmdataServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 @Service
 public class CrmdataImpl implements CrmdataServices {
 
+    @Autowired
+    DataSourceProperties dataSourceProperties;
+    @Autowired
+    protected ApplicationContext applicationContext;
 
     @Autowired
     private CrmdataMapper crmdataMapper;
@@ -52,6 +59,11 @@ public class CrmdataImpl implements CrmdataServices {
         return crmdataMapper.InsertCrmdata3(phone, source, url, con, ip, plankey);
     }
 
+    @Override
+    public int InsertCrmdata4(String phone, String source, String url, String con, String firsttime, String ip, String plankey) {
+        return crmdataMapper.InsertCrmdata4(phone, source, url, con, firsttime, ip, plankey);
+    }
+
     public List<Crmdata> CrmdataAll(int page) {
         return crmdataMapper.CrmdataAll(10*(page-1));
     }
@@ -68,8 +80,17 @@ public class CrmdataImpl implements CrmdataServices {
 
     @Override
     public List<Crmdata> CrmdataAll4(int page) {
+
+        DataSource dataSource = applicationContext.getBean(DataSource.class);
+        // 查看配置数据源信息
+        System.out.println(dataSource);
+        System.out.println(dataSource.getClass().getName());
+        System.out.println(dataSourceProperties.getUsername());
+        System.out.println(dataSourceProperties.getPassword());
+        System.out.println(dataSourceProperties.getUrl());
         return crmdataMapper.CrmdataAll4(10*(page-1));
     }
+
 
     @Override
     public List<Crmdata> CrmdataAll5(int page) {

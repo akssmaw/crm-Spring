@@ -67,7 +67,7 @@ public class Time {
                     long time2 = date2.getTime();
 
 
-                    if(time2-time1>=sysServices.SelectSysByscheduledtime().getScheduledday()*86400000){
+                    if(time2-time1>=(long)sysServices.SelectSysByscheduledtime().getScheduledday()*86400000){
                         /*自动流出*/
 
 
@@ -134,7 +134,7 @@ public class Time {
 
                         long time1 = date1.getTime();
                         long time2 = date2.getTime();
-                        if(time2-time1>=sysServices.SelectSysByscheduledtime().getScheduledday()*86400000){
+                        if(time2-time1>=(long)sysServices.SelectSysByscheduledtime().getScheduledday()*86400000){
 
                             //判断是不是已经开单过的用户
                             if(sysServices.SelectCrmdataByscheduledOpenDan(sysServices.SelectCrmdataByscheduledtime2().get(i).getCid())==0){
@@ -165,7 +165,7 @@ public class Time {
                         Date date2 = sdf.parse(dateTime.format(formatter));
                         long time1 = date1.getTime();
                         long time2 = date2.getTime();
-                        if(time2-time1>sysServices.SelectSysByscheduledtime().getScheduledday()*86400000 ){
+                        if(time2-time1>(long)sysServices.SelectSysByscheduledtime().getScheduledday()*86400000 ){
                             System.out.println("有线索切超时");
                             if(sysServices.SelectCrmdataByscheduledOpenDan(sysServices.SelectCrmdataByscheduledtime2().get(i).getCid())==0){
 
