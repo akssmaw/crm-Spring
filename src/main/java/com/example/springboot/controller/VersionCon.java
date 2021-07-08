@@ -19,6 +19,8 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileReader;
 import java.util.*;
@@ -62,17 +64,35 @@ public class VersionCon {
 
     /*json对象  */
     @GetMapping("/getParam/{data}")
-    public String getParam(@PathVariable String data){
+    public String getParam(@PathVariable String data, HttpServletRequest request){
 
-        JSONArray json = (JSONArray) JSONArray.parse(data);
-        for (int i = 0; i <json.size() ; i++) {
-            System.out.println( json.get(i));
-            JSONObject jo = (JSONObject)json.get(i);
-            System.out.println(jo.getString("label"));
-            System.out.println(jo.getInteger("value"));
+        HttpSession session3 = request.getSession();
+        session3.setAttribute("user", "我是value");
+        HttpSession session4 = request.getSession();
+        session3.setAttribute("user2", "我是value2");
 
-        }
+//        JSONArray json = (JSONArray) JSONArray.parse(data);
+//        for (int i = 0; i <json.size() ; i++) {
+//
+//            System.out.println( json.get(i));
+//            JSONObject jo = (JSONObject)json.get(i);
+//            System.out.println(jo.getString("label"));
+//            System.out.println(jo.getInteger("value"));
+//
+//        }
+//获取session
+        HttpSession   session   =   request.getSession();
+// 获取session中所有的键值
+        Enumeration<String> attrs = session.getAttributeNames();
+// 遍历attrs中的
+        while(attrs.hasMoreElements()){
+// 获取session键值
+            String name = attrs.nextElement().toString();
+            // 根据键值取session中的值
+            Object vakue = session.getAttribute(name);
+            // 打印结果
+            System.out.println("------" + name + ":" + vakue +"--------\n");}
 
-        return null;
+        return session.getAttribute("user").toString();
     }
 }
