@@ -96,7 +96,10 @@ int SelectCrmdataByPhone(@Param("phone")String phone);
     public  List<Crmdata> SelectYouXiaoByColorSort(@Param("uid")int uid,@Param("page")int page);
 
     //根据销售id查询已标记为有效客户 并且主表是-1   状态2表是0 查询
-    public  List<Crmdata> SelectYouXiaoSearh(@Param("uid")int uid,@Param("phone")String phone);
+    public  List<Crmdata> SelectYouXiaoSearh(@Param("uid")int uid,@Param("phone")String phone,@Param("color")int color,@Param("page")int page );
+
+    //
+    public  List<Crmdata> SelectYouXiaoSearhAndColorIsNull(@Param("uid")int uid,@Param("phone")String phone,@Param("page")int page );
     //查询保存了多少有效客户
     public int SelectYouXiaoCount(@Param("uid")int uid);
 

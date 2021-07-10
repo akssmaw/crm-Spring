@@ -340,10 +340,17 @@ public class CrmdataCon {
     }
 
     @ApiOperation("根据cid修改stat显示状态")
-    @PostMapping("/SelectYouXiaoSearh/{uid}/{phone}")
-    public Object SelectYouXiaoSearh(@PathVariable int uid,@PathVariable String phone) {
+    @PostMapping("/SelectYouXiaoSearh/{uid}/{phone}/{color}/{page}")
+    public Object SelectYouXiaoSearh(@PathVariable int uid ,
+                                     @PathVariable(value = "phone",required = false)String phone,
+                                     @PathVariable(value = "color",required = false) int color,
+                                     @PathVariable int page) {
 
-        return crmdataServices.SelectYouXiaoSearh(uid, phone);
+        System.out.println("uid"+uid);
+        System.out.println("phone"+phone);
+        System.out.println("color"+color);
+        System.out.println("page"+page);
+        return crmdataServices.SelectYouXiaoSearh(uid,phone,color,page);
 
     }
     @ApiOperation("查询已经保存的客源 用于查询订单")

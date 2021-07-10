@@ -110,7 +110,16 @@
 
     <select id="SelectYouXiaoSearh" resultType="com.example.springboot.entity.Crmdata" >
 
-        SELECT * FROM `crmdata` AS a INNER JOIN `setuser` AS b   WHERE a.`cid`=b.`cid`AND  b.uid=#{uid}  AND a.`stat`=-1 AND b.`state`=0 AND iid=-1 AND (phone=#{phone} OR con LIKE CONCAT('%',#{phone},'%')) ORDER BY a.`cid` DESC  LIMIT 0,1
+        SELECT * FROM `crmdata` AS a INNER JOIN `setuser` AS b   WHERE a.`cid`=b.`cid`
+                                                                   AND  b.uid=#{uid}  AND a.`stat`=-1 AND b.`state`=0 AND iid=-1
+                                                                   AND (phone LIKE CONCAT('%',#{phone},'%') OR con LIKE CONCAT('%',#{phone},'%'))  AND color = #{color}  ORDER BY a.`cid` DESC  LIMIT #{page},10
+
+    </select>
+    <select id="SelectYouXiaoSearhAndColorIsNull" resultType="com.example.springboot.entity.Crmdata" >
+        SELECT * FROM `crmdata` AS a INNER JOIN `setuser` AS b   WHERE a.`cid`=b.`cid`
+                                                                   AND  b.uid=#{uid}  AND a.`stat`=-1 AND b.`state`=0 AND iid=-1
+                                                                   AND (phone LIKE CONCAT('%',#{phone},'%') OR con LIKE CONCAT('%',#{phone},'%'))  ORDER BY a.`cid` DESC  LIMIT #{page},10
+
 
     </select>
 

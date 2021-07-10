@@ -140,9 +140,20 @@ public class CrmdataImpl implements CrmdataServices {
     }
 
     @Override
-    public List<Crmdata> SelectYouXiaoSearh(int uid, String phone) {
-        return crmdataMapper.SelectYouXiaoSearh(uid, phone);
+    public List<Crmdata> SelectYouXiaoSearh(int uid, String phone, int color, int page) {
+        if(color == -1){
+
+            return SelectYouXiaoSearhAndColorIsNull(uid, phone, 10*(page-1));
+
+        }
+        return crmdataMapper.SelectYouXiaoSearh(uid, phone, color, 10*(page-1));
     }
+
+    @Override
+    public List<Crmdata> SelectYouXiaoSearhAndColorIsNull(int uid, String phone, int page) {
+        return crmdataMapper.SelectYouXiaoSearhAndColorIsNull(uid, phone, 10*(page-1));
+    }
+
 
     @Override
     public int SelectYouXiaoCount(int uid) {
