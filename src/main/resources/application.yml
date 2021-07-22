@@ -1,0 +1,48 @@
+
+server:
+  port: 8080
+  maxPostSize: -1
+  max-http-header-size: 10000000
+
+
+
+mybatis:
+  mapper-locations: classpath*:com.example/springboot/dao/*.xml
+  type-aliases-package: com.example.springboot.entity
+
+
+spring:
+  datasource:
+#    bim
+    username: crm_system_lx
+    password: sY8XM4xCdmbXj7nh
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/crm_system_lx?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&verifyServerCertificate=false&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true&autoReconnect=true
+
+
+  #    知识产权
+#    username: crm_system_lx
+#    password: sY8XM4xCdmbXj7nh
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/crm_system_lx?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&verifyServerCertificate=false&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true&autoReconnect=true
+
+
+  servlet:
+    multipart:
+      # 启用
+      enabled: true
+      # 上传文件单个限制
+      max-file-size: 50MB
+      # 总限制
+      maxrequest--size: 60MB
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 5000
+    # password:
+    pool:
+      minIdle: 1
+      maxIdle: 10
+      maxWait: 3
+      maxActive: 8

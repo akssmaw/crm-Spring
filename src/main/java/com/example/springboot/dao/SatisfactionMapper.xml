@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springboot.dao.SatisfactionMapper">
+
+<select id="SatisfactionAll" resultType="Satisfaction">
+
+   SELECT* FROM `satisfaction` WHERE stat=0
+
+</select>
+
+<select id="SatisfactionByUidAndTime" resultType="Satisfaction">
+
+   SELECT sid,message,(SELECT  COUNT(*) FROM `setuser` AS a WHERE a.iid =b.`sid` AND settime>#{time1} AND settime &lt; #{time2} AND uid=#{uid}) AS stat FROM `satisfaction` AS b
+
+</select>
+
+</mapper>

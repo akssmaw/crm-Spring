@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.dao.UserStatisMapper">
+
+    <!--  正在审核1  审核失败2  审核成功3 -->
+    <select id="SelectByDefault" resultType="com.example.springboot.entity.UserStatis">
+        SELECT uid,uname,`group`,authority,
+               (SELECT SUM(prepay) FROM `order` WHERE  u.`uid`=uid   AND `time`>#{stattime} AND `time`  &lt;#{endtime}  ) AS prepay ,
+               (SELECT SUM(total) FROM `order` WHERE  u.`uid`=uid  AND `time`>#{stattime} AND `time`  &lt;#{endtime} ) AS total,
+               (SELECT COUNT(*) FROM `order` WHERE  u.`uid`=uid  AND `time`>#{stattime} AND `time` &lt; #{endtime} )  AS `count`,
+               (SELECT getnext2 FROM `user` WHERE  u.`uid`=uid   ) AS getnext2,
+               (SELECT COUNT(*) FROM `getuser2` WHERE u.`uid`=uid AND  `gettime`>'2021-06-03 00:00:00' AND `gettime` &lt; #{endtime}  ) AS getuser2count,
+               (SELECT COUNT(*) FROM `setuser` WHERE u.`uid`=uid AND  `settime`>'2021-06-03 00:00:00' AND `settime` &lt; #{endtime} AND iid=-1  ) AS setusercount
+        FROM `user`AS u WHERE uid!=1
+
+    </select>
+
+    <select id="SelectByPrepay" resultType="com.example.springboot.entity.UserStatis">
+        SELECT uid,uname,`group`,authority,
+               (SELECT SUM(prepay) FROM `order` WHERE  u.`uid`=uid   AND `time`>#{stattime} AND `time`  &lt;#{endtime}   ) AS prepay ,
+               (SELECT SUM(total) FROM `order` WHERE  u.`uid`=uid  AND `time`>#{stattime} AND `time`  &lt;#{endtime}   ) AS total,
+               (SELECT COUNT(*) FROM `order` WHERE  u.`uid`=uid  AND `time`>#{stattime} AND `time`  &lt;#{endtime}  ) AS `count`,
+               (SELECT getnext2 FROM `user` WHERE  u.`uid`=uid   ) AS getnext2,
+               (SELECT COUNT(*) FROM `getuser2` WHERE u.`uid`=uid AND  `gettime`>#{stattime} AND `gettime` &lt; #{endtime}  ) AS getuser2count,
+               (SELECT COUNT(*) FROM `setuser` WHERE u.`uid`=uid AND  `settime`>#{stattime} AND `settime` &lt; #{endtime} AND iid=-1  ) AS setusercount
+        FROM `user`AS u WHERE uid!=1  ORDER BY (SELECT SUM(total) FROM `order` WHERE  u.`uid`=uid  AND `time`>#{stattime} AND `time`  &lt;#{endtime}    ) DESC
+    </select>
+
+    <select id="SelectByGroup" resultType="com.example.springboot.entity.UserStatis">
+        SELECT uid,uname,`group`,authority,
+               (SELECT SUM(prepay) FROM `order` WHERE  u.`uid`=uid   AND `time`>#{stattime} AND `time`  &lt;#{endtime}   ) AS prepay ,
+               (SELECT SUM(total) FROM `order` WHERE  u.`uid`=uid  AND `time`>#{stattime} AND `time`  &lt;#{endtime}   ) AS total,
+               (SELECT COUNT(*) FROM `order` WHERE  u.`uid`=uid  AND `time`>#{stattime} AND `time`  &lt;#{endtime}  ) AS `count`,
+               (SELECT getnext2 FROM `user` WHERE  u.`uid`=uid   ) AS getnext2,
+               (SELECT COUNT(*) FROM `getuser2` WHERE u.`uid`=uid AND  `gettime`>#{stattime} AND `gettime` &lt; #{endtime}  ) AS getuser2count,
+               (SELECT COUNT(*) FROM `setuser` WHERE u.`uid`=uid AND  `settime`>#{stattime}' AND `settime` &lt; #{endtime} AND iid=-1  ) AS setusercount
+        FROM `user`AS u WHERE uid!=1  ORDER BY  `group` DESC
+
+    </select>
+</mapper>

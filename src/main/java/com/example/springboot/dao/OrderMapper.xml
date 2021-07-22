@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springboot.dao.OrderMapper">
+
+    <insert id="InsertOrder">
+
+        INSERT INTO `order` VALUE(NULL,#{cid},#{phone},#{uid},#{uname},#{stuname},#{zipurl},#{prepay},#{total},#{account},#{con},NULL,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{orderproject},#{studentype})
+
+    </insert>
+
+    <insert id="InsertOrder2">
+
+        INSERT INTO `order` VALUE(NULL,#{cid},#{phone},#{uid},#{uname},#{stuname},#{zipurl},#{prepay},#{total},#{account},#{con},NULL,DEFAULT,DEFAULT,DEFAULT,1,#{orderproject},#{studentype})
+
+
+    </insert>
+
+    <select id="SelectOrderByUid" resultType="com.example.springboot.entity.Order">
+
+        SELECT * FROM `order` WHERE uid=#{uid} AND state=#{state} ORDER BY `time` DESC LIMIT #{page},10
+
+    </select>
+
+    <select id="SelectOrderByUidWk" resultType="com.example.springboot.entity.Order" >
+
+        SELECT * FROM `order` WHERE uid=#{uid}  AND prepay!=total ORDER BY `time`  DESC LIMIT #{page},10
+
+
+    </select>
+    <select id="SelectOrderByAdmin" resultType="com.example.springboot.entity.Order">
+
+        SELECT * FROM `order` WHERE state=#{state}  ORDER BY `time`  DESC LIMIT #{page},10
+
+    </select>
+    <select id="SelectOrderByAdminNo" resultType="com.example.springboot.entity.Order" >
+
+        SELECT * FROM `order` WHERE state=#{state}  AND prepay!=total ORDER BY `time`  DESC LIMIT #{page},10
+
+    </select>
+    <select id="SelectOrderByAdminYes"  resultType="com.example.springboot.entity.Order">
+
+        SELECT * FROM `order` WHERE state=#{state}  ORDER BY `time`  DESC LIMIT #{page},10
+
+    </select>
+
+    <update id="SelectOrderByOidNo">
+
+        UPDATE `order` SET rescon=#{rescon},state=2 WHERE oid=#{oid}
+
+    </update>
+
+    <update id="SelectOrderByOidyes">
+        UPDATE `order` SET ordercon=#{ordercon},state=3 WHERE oid=#{oid}
+
+    </update>
+
+    <update id="updateOrderByOidAndPrepay">
+
+        UPDATE `order` SET prepay=#{prepay} WHERE oid=#{oid}
+
+    </update>
+
+    <update id="updateOrderByOidAndPrepay2">
+
+        UPDATE `order` SET prepay=#{prepay},orderstate=1 WHERE oid=#{oid}
+    </update>
+
+    <select id="SecletOrderByCid" resultType="com.example.springboot.entity.Order">
+
+        SELECT * FROM `order` WHERE cid=#{cid}
+
+    </select>
+</mapper>

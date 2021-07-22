@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.dao.OrderAndUidMapper">
+
+    <!--  正在审核1  审核失败2  审核成功3 -->
+    <select id="SelectOrderAndUid" resultType="com.example.springboot.entity.OrderAndUid">
+
+        SELECT COUNT(*) AS zongCount,SUM(total) AS zongTotal,(SELECT SUM(total) FROM `order` WHERE uid=#{uid} AND `time`>#{starttime} AND `time` &lt; #{endtime} AND state=3) AS enter,(SELECT SUM(total) FROM `order` WHERE uid=#{uid} AND `time`>#{starttime} AND `time` &lt; #{endtime} AND  state IN (2,1) ) AS lodingenter   FROM`order` WHERE uid=#{uid} AND `time`>#{starttime}AND `time` &lt; #{endtime}
+
+    </select>
+</mapper>
