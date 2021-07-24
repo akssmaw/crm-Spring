@@ -67,7 +67,7 @@
     <select id="CrmdataAll4"  resultType="com.example.springboot.entity.Crmdata">
 
 
-        SELECT cid,REPLACE(phone,SUBSTR(phone,4,4),'****') phone,firsttime,(SELECT  lastcon FROM `record`  WHERE cid =crmdata.`cid` ORDER BY lasttime DESC  LIMIT 0,1 ) AS con  FROM crmdata AS crmdata  WHERE  stat>0  ORDER BY firsttime DESC  LIMIT #{page},10
+        SELECT cid,REPLACE(phone,SUBSTR(phone,4,4),'****') phone,firsttime,source,(SELECT  lastcon FROM `record`  WHERE cid =crmdata.`cid` ORDER BY lasttime DESC  LIMIT 0,1 ) AS con  FROM crmdata AS crmdata  WHERE  stat>0  ORDER BY firsttime DESC  LIMIT #{page},10
 
     </select>
 
@@ -109,27 +109,35 @@
 
     <select id="SelectYouXiao" resultType="com.example.springboot.entity.Crmdata">
 
-        SELECT * FROM `crmdata` AS a INNER JOIN `setuser` AS b   WHERE a.`cid`=b.`cid`AND  b.uid=#{uid} AND a.`stat`=-1 AND b.`state`=0 AND iid=-1 ORDER BY a.`lasttime` DESC  LIMIT #{page},10
+        SELECT * FROM `crmdata` AS a INNER JOIN `setuser` AS b   WHERE a.`cid`=b.`cid`AND  b.uid=#{uid} AND a.`lastuid` = b.uid AND a.`stat`=-1 AND b.`state`=0 AND iid=-1 ORDER BY a.`lasttime` DESC  LIMIT #{page},10
 
 
     </select>
     <select id="SelectYouXiaoByColorSort" resultType="com.example.springboot.entity.Crmdata">
 
-        SELECT * FROM `crmdata` AS a INNER JOIN `setuser` AS b   WHERE a.`cid`=b.`cid`AND  b.uid=#{uid} AND a.`stat`=-1 AND b.`state`=0 AND iid=-1 ORDER BY  color DESC  LIMIT #{page},10
+        SELECT * FROM `crmdata` AS a INNER JOIN `setuser` AS b   WHERE a.`cid`=b.`cid`
+                                                                   AND  b.uid=#{uid}
+                                                                   AND a.`lastuid` = b.uid
+                                                                   AND a.`stat`=-1
+                                                                   AND b.`state`=0 AND iid=-1 ORDER BY  color DESC  LIMIT #{page},10
 
     </select>
 
     <select id="SelectYouXiaoSearh" resultType="com.example.springboot.entity.Crmdata" >
 
         SELECT * FROM `crmdata` AS a INNER JOIN `setuser` AS b   WHERE a.`cid`=b.`cid`
-                                                                   AND  b.uid=#{uid}  AND a.`stat`=-1 AND b.`state`=0 AND iid=-1
+                                                                   AND  b.uid=#{uid}
+                                                                   AND a.`lastuid` = b.uid
+                                                                   AND a.`stat`=-1 AND b.`state`=0 AND iid=-1
                                                                    AND (phone LIKE CONCAT('%',#{phone},'%') OR con LIKE CONCAT('%',#{phone},'%'))  AND color = #{color}  ORDER BY a.`cid` DESC  LIMIT #{page},10
 
     </select>
     <select id="SelectYouXiaoSearhAndColorIsNull" resultType="com.example.springboot.entity.Crmdata" >
 
         SELECT * FROM `crmdata` AS a INNER JOIN `setuser` AS b   WHERE a.`cid`=b.`cid`
-                                                                   AND  b.uid=#{uid}  AND a.`stat`=-1 AND b.`state`=0 AND iid=-1
+                                                                   AND  b.uid=#{uid}
+                                                                   AND a.`lastuid` = b.uid
+                                                                   AND a.`stat`=-1 AND b.`state`=0 AND iid=-1
                                                                    AND (phone LIKE CONCAT('%',#{phone},'%') OR con LIKE CONCAT('%',#{phone},'%'))  ORDER BY a.`cid` DESC  LIMIT #{page},10
 
 
@@ -137,7 +145,9 @@
     <select id="SelectYouXiaoSearhAndPhoneIsNull" resultType="com.example.springboot.entity.Crmdata" >
 
         SELECT * FROM `crmdata` AS a INNER JOIN `setuser` AS b   WHERE a.`cid`=b.`cid`
-                                                                   AND  b.uid=#{uid}  AND a.`stat`=-1 AND b.`state`=0 AND iid=-1
+                                                                   AND  b.uid=#{uid}
+                                                                   AND a.`lastuid` = b.uid
+                                                                   AND a.`stat`=-1 AND b.`state`=0 AND iid=-1
                                                                    AND color = #{color}  ORDER BY a.`cid` DESC  LIMIT #{page},10
 
 
@@ -145,7 +155,7 @@
 
     <select id="SelectYouXiaoCount" resultType="int">
 
-        SELECT COUNT(*) FROM `crmdata` AS a INNER JOIN `setuser` AS b   WHERE a.`cid`=b.`cid`AND  b.uid=#{uid} AND a.`stat`=-1 AND b.`state`=0
+        SELECT COUNT(*) FROM `crmdata` AS a INNER JOIN `setuser` AS b   WHERE a.`cid`=b.`cid`AND  b.uid=#{uid}   AND a.`lastuid` = b.uid AND a.`stat`=-1 AND b.`state`=0
 
     </select>
 
@@ -179,8 +189,8 @@
     <select id="SelectCrmdataBySourceSize" resultType="com.example.springboot.entity.SourceSize">
 
         SELECT COUNT(*) AS allSize,${source} AS sourcename,
-        (SELECT COUNT(*) FROM `crmdata` WHERE `source` LIKE(${source}) AND firsttime>#{starttime} AND firsttime&lt; #{endtime}  AND stat IN(-2,0,-1)) AS effectiveSize ,
-        (SELECT COUNT(*) FROM `crmdata` WHERE `source` LIKE(${source})  AND firsttime> #{starttime} AND firsttime&lt; #{endtime}  AND stat>=1 ) AS invalidSize
+               (SELECT COUNT(*) FROM `crmdata` WHERE `source` LIKE(${source}) AND firsttime>#{starttime} AND firsttime&lt; #{endtime}  AND stat IN(-2,0,-1)) AS effectiveSize ,
+               (SELECT COUNT(*) FROM `crmdata` WHERE `source` LIKE(${source})  AND firsttime> #{starttime} AND firsttime&lt; #{endtime}  AND stat>=1 ) AS invalidSize
         FROM `crmdata` AS c WHERE `source` LIKE(${source}) AND firsttime> #{starttime} AND firsttime&lt; #{endtime}
 
     </select>
@@ -190,17 +200,17 @@
     <select id="SelectCrmdataCount"  resultType="com.example.springboot.entity.CrmdataCount">
 
         SELECT COUNT(*) AS `sumcount`,
-        (SELECT COUNT(*)  FROM `crmdata` WHERE source LIKE(${source}) AND
-        firsttime>#{starttime} AND firsttime  &lt; #{endtime}  AND stat=-1 )    AS validcount ,
-        (SELECT COUNT(*)  FROM `crmdata` WHERE source LIKE(${source}) AND
-        firsttime>#{starttime} AND firsttime  &lt; #{endtime}  AND datasource='接口提交' ) AS apicount,
+               (SELECT COUNT(*)  FROM `crmdata` WHERE source LIKE(${source}) AND
+                   firsttime>#{starttime} AND firsttime  &lt; #{endtime}  AND stat=-1 )    AS validcount ,
+               (SELECT COUNT(*)  FROM `crmdata` WHERE source LIKE(${source}) AND
+                   firsttime>#{starttime} AND firsttime  &lt; #{endtime}  AND datasource='接口提交' ) AS apicount,
 
-        (SELECT COUNT(*)  FROM `crmdata` WHERE source LIKE(${source}) AND
-        firsttime>#{starttime} AND firsttime  &lt; #{endtime}  AND datasource='客户录入' ) AS servicecount
+               (SELECT COUNT(*)  FROM `crmdata` WHERE source LIKE(${source}) AND
+                   firsttime>#{starttime} AND firsttime  &lt; #{endtime}  AND datasource='客户录入' ) AS servicecount
 
 
         FROM `crmdata` WHERE source LIKE(${source}) AND
-        firsttime>#{starttime} AND firsttime  &lt;  #{endtime}
+            firsttime>#{starttime} AND firsttime  &lt;  #{endtime}
 
     </select>
 

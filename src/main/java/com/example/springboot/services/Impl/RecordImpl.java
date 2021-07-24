@@ -15,7 +15,7 @@ public class RecordImpl implements RecordServices {
     private RecordMapper recordMapper;
 
 
-
+@Override
     public int insertRecord(int cid, String lastuname, int lastuid, String lasttime, String lastcon) {
 
 

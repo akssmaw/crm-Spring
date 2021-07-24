@@ -8,9 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UtilToken {
@@ -55,7 +53,7 @@ public class UtilToken {
      * @param **password**
      * @return
      */
-    public static String createToken(String userId,long expireDate) {
+    public String createToken(String userId,long expireDate) {
         try {
             // 设置过期时间
             Date date = new Date(System.currentTimeMillis() + expireDate);
@@ -81,23 +79,31 @@ public class UtilToken {
      * @param **token**
      * @return
      */
-    public static Object verifyToken(String token){
+    public List<Object> verifyToken(String token){
         try {
             Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT jwt = verifier.verify(token);
 
-        Map map = new HashMap();
-
-            map.put("UserIp",jwt.getClaim("UserIp").asString());
-            map.put("ChatId",jwt.getClaim("ChatId").asString());
-            map.put("ComId",jwt.getClaim("ComId").asString());
 
 
-            return map;
+        List<Object> list = new ArrayList();
+        list.add(jwt.getClaim("UserIp").asString());
+            list.add(jwt.getClaim("ChatId").asString());
+            list.add(jwt.getClaim("ComId").asString());
+
+
+
+            return list;
         } catch (Exception e){
-            return false;
+            List<Object> list = new ArrayList();
+            list.add(0);
+            list.add(0);
+            list.add(0);
+
+            return list;
         }
+
     }
 
     public boolean verifyTokenIs(String token){
@@ -115,23 +121,24 @@ public class UtilToken {
 
             return true;
         } catch (Exception e){
+
             return false;
         }
     }
-    public static void main(String[] args) {
-
-        Map map = new HashMap();
-
-        map.put("UserIp","woshiip");
-        map.put("ChatId","woshiid");
-        map.put("ComId","woshigongsi");
-        String token = createToken(map);
-        System.out.println("token == " + token);
-
-        System.out.println(verifyToken("eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJVc2VySXAiOiJ3b3NoaWlwIiwiQ29tSWQiOiJ3b3NoaWdvbmdzaSIsIkNoYXRJZCI6Indvc2hpaWQifQ.jx9xhDS5Wy6mdp15qz0Robc8o2Zbs4Rj8CO0HcNrsjk"));
-
-
-
-    }
+//    public static void main(String[] args) {
+//
+//        Map map = new HashMap();
+//
+//        map.put("UserIp","woshiip");
+//        map.put("ChatId","woshiid");
+//        map.put("ComId","woshigongsi");
+//        String token = createToken(map);
+//        System.out.println("token == " + token);
+//
+//        System.out.println(verifyToken("eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJVc2VySXAiOiJ3b3NoaWlwIiwiQ29tSWQiOiJ3b3NoaWdvbmdzaSIsIkNoYXRJZCI6Indvc2hpaWQifQ.jx9xhDS5Wy6mdp15qz0Robc8o2Zbs4Rj8CO0HcNrsjk"));
+//
+//
+//
+//    }
 
 }

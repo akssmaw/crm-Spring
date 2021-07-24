@@ -14,17 +14,17 @@ mybatis:
 spring:
   datasource:
 #    bim
-    username: crm_system_lx
-    password: sY8XM4xCdmbXj7nh
+    username: root
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/crm_system_lx?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&verifyServerCertificate=false&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true&autoReconnect=true
+    url: jdbc:mysql://localhost:3306/crm_system?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&verifyServerCertificate=false&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true&autoReconnect=true
 
 
-  #    知识产权
+#   #   知识产权
 #    username: crm_system_lx
 #    password: sY8XM4xCdmbXj7nh
 #    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/crm_system_lx?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&verifyServerCertificate=false&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true&autoReconnect=true
+#    url: jdbc:mysql://115.28.209.225:3306/crm_system_lx?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&verifyServerCertificate=false&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true&autoReconnect=true
 
 
   servlet:

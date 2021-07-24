@@ -3,6 +3,7 @@ package com.example.springboot.quartz;
 import com.example.springboot.entity.Crmdata;
 import com.example.springboot.entity.CrmdataScheduled;
 import com.example.springboot.services.RecordServices;
+import com.example.springboot.services.SetuserServices;
 import com.example.springboot.services.SysServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,8 @@ public class Time {
     private SysServices sysServices;
     @Autowired
     private RecordServices recordServices;
+    @Autowired
+    private SetuserServices setuserServices;
     @SuppressWarnings("AlibabaTransactionMustHaveRollback")
     @Scheduled(cron = "0 0 0 * * ?")
     /*
@@ -90,6 +93,7 @@ public class Time {
 /*执行1*/
                 for (int i = 0; i <list.size() ; i++) {
 
+
                     System.out.println("未保存有效且超时流出ID"+list.get(i).getCid());
                     if (sysServices.UpdateCrmdataByTimeState(89,list.get(i).getCid())==1){
 
@@ -125,6 +129,7 @@ public class Time {
                 List<CrmdataScheduled> list2 =new ArrayList<>();
                 List<CrmdataScheduled> list3 =new ArrayList<>();
                 for (int i = 0; i < sysServices.SelectCrmdataByscheduledtime2().size(); i++) {
+
                     //如果查看到时间是空 那么就是没有跟进线索 查询领取时间 和 现在时间对比
 
                     if(sysServices.SelectCrmdataByscheduledtime2().get(i).getTime()==null){
@@ -198,7 +203,7 @@ public class Time {
                 for (int i = 0; i <list2.size() ; i++) {
 
                     System.out.println("没有线索且超时流出ID"+list2.get(i).getCid());
-
+                    setuserServices.UpdateSetUserByCidAndUid(list2.get(i).getCid(),list2.get(i).getLastuid(),88);
                     if(sysServices.UpdateCrmdataByTimeState(89,list2.get(i).getCid())==1){
                         map.put("没有线索且超时流出ID:"+list2.get(i).getCid(),list2.get(i));
                         recordServices.insertRecord(
@@ -216,6 +221,7 @@ public class Time {
                     System.out.println("有线索且超时"+list3.get(i).getCid());
 
                     if(sysServices.UpdateCrmdataByTimeState(89,list3.get(i).getCid())==1){
+                        setuserServices.UpdateSetUserByCidAndUid(list2.get(i).getCid(),list2.get(i).getLastuid(),88);
                         map.put("有线索且超时流出ID:"+list3.get(i).getCid(),list3.get(i));
                         recordServices.insertRecord(
                                 list3.get(i).getCid(),

@@ -11,5 +11,11 @@
 
     </select>
 
+    <select id="chatUserById" resultType="com.example.springboot.entity.chat.chat_user" >
+
+        SELECT* FROM `chat_user` WHERE id=#{id}
+
+    </select>
+
 
 </mapper>

@@ -13,4 +13,6 @@ public interface ChatUserMapper {
 
     List<chat_user> Chat_UserByComId(@Param("cid")int cid);
 
+    chat_user chatUserById(@Param("id")int id);
+
 }
