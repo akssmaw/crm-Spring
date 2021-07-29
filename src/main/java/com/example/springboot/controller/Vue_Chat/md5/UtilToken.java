@@ -22,7 +22,7 @@ public class UtilToken {
      * @param **password**
      * @return
      */
-    public static String createToken(Map map) {
+    public String createToken(Map map) {
         try {
             // 设置过期时间
             Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);

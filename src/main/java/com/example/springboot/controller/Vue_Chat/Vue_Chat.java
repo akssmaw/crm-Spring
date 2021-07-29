@@ -14,17 +14,18 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Api(tags = "所有数据接口")
-
+@Component
 @RestController
+
 @RequestMapping(value = "Vue_Chat")
 public class Vue_Chat {
 
@@ -38,10 +39,16 @@ public class Vue_Chat {
 
     @Autowired
     private UtilToken utilToken;
+    //消息发送模板
+    @Autowired
+    private SimpMessagingTemplate simpMessageSendingOperations;
+
 
     @ApiOperation("根据公司id查询公司有多少客服")
-    @PostMapping("/Chat_ComByComId/{comid}/{userip}")
-    public Object Chat_ComByComId(@PathVariable("comid") String comid,@PathVariable("userip")String userip ) {
+    @PostMapping("/Chat_ComByComId/{comid}/{userip}/{useraddress}")
+    public Object Chat_ComByComId(@PathVariable("comid") String comid,
+                                  @PathVariable("userip")String userip,
+                                  @PathVariable("useraddress")String useraddress) {
         Map<String, Object> map = new HashMap<>();
         if (chatComMapper.Chat_ComByComId(comid) != null) {
 
@@ -65,21 +72,35 @@ public class Vue_Chat {
 
 
 //
+             int chid = weightRandom.run(chatUserMapper.Chat_UserByComId(chatComMapper.Chat_ComByComId(comid).getCid()));
+             System.out.println(chid+"-------------");
              Map TokenMap = new HashMap();
 
              TokenMap.put("UserIp",userip);
 
-             TokenMap.put("ChatId",weightRandom.run(chatUserMapper.Chat_UserByComId(chatComMapper.Chat_ComByComId(comid).getCid())));
+             TokenMap.put("ChatId",chid);
 
              TokenMap.put("ComId",comid);
 
-             System.out.println("客服id=="+weightRandom.run(chatUserMapper.Chat_UserByComId(chatComMapper.Chat_ComByComId(comid).getCid())));
+             System.out.println("第一次进入客服 分配客服");
+             System.out.println("客服id=="+chid);
              System.out.println("token=="+   utilToken.createToken(TokenMap));
-             System.out.println("解密=="+    utilToken.verifyToken("eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJVc2VySXAiOiIxOTIuMTY4LjEuMSIsIkNvbUlkIjoiNTQzODc1NzQ4IiwiQ2hhdElkIjoiMiJ9.0F7EUEzjqjTfSuMl_7hdMGxLeurytVDakOTnoAoAZ_4"));
+
+             System.out.println("解密=="+  utilToken.verifyToken(utilToken.createToken(TokenMap)));
 
              map.put("code", ChatType.User_Id);
              map.put("token",utilToken.createToken(TokenMap));
+
+             ;//将消息推送给‘、topic/ip’的客户端
+
+
              map.put("message", "访问成功");
+
+
+             simpMessageSendingOperations.convertAndSend("/topic/Vue_ChatMess_ChatId/" + chid,
+                     "{userip:'"+userip+"'," +
+                             "createdTime:'"+System.currentTimeMillis()+"',address:'"+useraddress+"'}");
+
 
         }else {
              /*当全部用户的东西都为0的时候 抛出 */

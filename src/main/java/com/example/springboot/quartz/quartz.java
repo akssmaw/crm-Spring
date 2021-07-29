@@ -13,7 +13,7 @@ public class quartz {
     public static void main(String[] args) throws SchedulerException, InterruptedException, ParseException {
 
 
-
+        quart();
 
     }
 
@@ -36,5 +36,6 @@ public class quartz {
         System.out.println("--------scheduler start ! ------------");
         scheduler.start();
     }
+
 
 }

@@ -7,11 +7,12 @@
 
 <select id="UserpisteAll" resultType="com.example.springboot.entity.Userpiste">
 
-    SELECT * FROM `userpiste` WHERE cid=#{cid}
+    SELECT * FROM `userpiste` WHERE cid=#{cid} ORDER BY ptime DESC
 
 </select>
 
     <insert id="InsertUserpiste" >
+
         INSERT INTO`userpiste` VALUE(NULL,#{cid},#{ptime},#{pcon},#{uid},#{uname})
 
     </insert>
