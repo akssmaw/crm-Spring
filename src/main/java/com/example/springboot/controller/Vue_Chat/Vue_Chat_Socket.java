@@ -32,5 +32,12 @@ public class Vue_Chat_Socket {
         simpMessageSendingOperations.convertAndSend("/topic/Vue_ChatMess/" + ip, message);
 
     }
+    @PostMapping("/heartbeat/{token}")
+    public void AllotByIp(@PathVariable("token")String token) {
+
+        System.out.println("我离开了");
+
+
+    }
 
 }
