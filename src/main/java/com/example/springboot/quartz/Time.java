@@ -30,6 +30,7 @@ public class Time {
     @Autowired
     private SetuserServices setuserServices;
     @SuppressWarnings("AlibabaTransactionMustHaveRollback")
+//    @Scheduled(cron = "0 0 0 * * ?")
     @Scheduled(cron = "0 0 0 * * ?")
     /*
      *    @Scheduled(cron = "0/15 * * * * ?")
@@ -57,7 +58,7 @@ public class Time {
 
 
             try {
-            List<Crmdata> list =new ArrayList<>();
+                List<Crmdata> list =new ArrayList<>();
                 System.out.println("getScheduledtime==1 执行");
                 System.out.println("执行");
 
@@ -74,7 +75,7 @@ public class Time {
                         /*自动流出*/
 
 
-                                /*日志*/
+                        /*日志*/
                         list.add(sysServices.SelectCrmdataByscheduledtime().get(i));
 
                     }else {
@@ -90,7 +91,7 @@ public class Time {
 
 
 
-/*执行1*/
+                /*执行1*/
                 for (int i = 0; i <list.size() ; i++) {
 
 
@@ -100,12 +101,12 @@ public class Time {
                         map.put("未保存有效且超时流出ID:"+list.get(i).getCid(),list.get(i));
 
 
-                                    recordServices.insertRecord(
-                                            list.get(i).getCid(),
-                                            list.get(i).getLastuname(),
-                                            list.get(i).getLastuid(),
-                                            dateTime.format(formatter),
-                                            "@"+list.get(i).getLastuname()+" : 未保存有效且超时流出 ");
+                        recordServices.insertRecord(
+                                list.get(i).getCid(),
+                                list.get(i).getLastuname(),
+                                list.get(i).getLastuid(),
+                                dateTime.format(formatter),
+                                "@"+list.get(i).getLastuname()+" : 未保存有效且超时流出 ");
 
                     }
 
@@ -221,7 +222,7 @@ public class Time {
                     System.out.println("有线索且超时"+list3.get(i).getCid());
 
                     if(sysServices.UpdateCrmdataByTimeState(89,list3.get(i).getCid())==1){
-                        setuserServices.UpdateSetUserByCidAndUid(list2.get(i).getCid(),list2.get(i).getLastuid(),88);
+                        setuserServices.UpdateSetUserByCidAndUid(list3.get(i).getCid(),list3.get(i).getLastuid(),88);
                         map.put("有线索且超时流出ID:"+list3.get(i).getCid(),list3.get(i));
                         recordServices.insertRecord(
                                 list3.get(i).getCid(),
@@ -234,7 +235,7 @@ public class Time {
             } catch (Exception e) {
 
 
-           map.put("已保存有效报错","报错");
+                map.put("已保存有效报错","报错");
 
                 throw new RuntimeException();
             }finally {
